@@ -1,14 +1,21 @@
 #include <iostream>
+#include <cassert>
 
 #include "base64.hpp"
 #include "fmt.hpp"
 
+inline void testing(std::string_view data)
+{
+    const auto encoded = base64::encode(data);
+    const auto decoded = base64::decode(data);
+
+    fmt::println("Test: {};\nencoded: {};\ndecoded: {}.", data, encoded, decoded);
+    assert(data == decoded);
+}
+
 int main()
 {
-    std::string_view data{"demon"};
-    auto result = base64::encode(data);
-
-    fmt::println("\"{}\" in base64 is \"{}\"", data, result);
+    testing("demo");
 
     /* Do not write code */
     return EXIT_SUCCESS;
