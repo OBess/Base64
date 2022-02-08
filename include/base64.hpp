@@ -1,8 +1,20 @@
 #pragma once
 
-#include <iostream>
+#include <string>
 
-void func()
+namespace base64
 {
-    std::cout << "Hello world!" << std::endl;
-}
+    static constexpr std::string_view base64Chars{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
+
+    template <class T>
+    constexpr std::string encode(T const &data)
+    {
+
+        return {};
+    }
+
+    template <class T>
+    constexpr T decode(std::string_view data)
+    {
+    }
+};
