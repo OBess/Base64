@@ -16,6 +16,10 @@ inline void testing(std::string_view data)
 int main()
 {
     testing("demo");
+    testing("demon");
+    testing("demo");
+    testing("demo");
+    testing("demo");
 
     /* Do not write code */
     return EXIT_SUCCESS;
