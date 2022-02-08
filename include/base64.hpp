@@ -7,7 +7,7 @@ namespace base64
     static constexpr std::string_view base64Chars{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
 
     // ENCODING
-    constexpr std::string encode(const char *data, const size_t size)
+    std::string encode(const char *data, const size_t size)
     {
         std::string encoded;
         encoded.reserve(size * 2);
@@ -27,25 +27,25 @@ namespace base64
         return encoded;
     }
 
-    constexpr std::string encode(std::string_view data)
+    std::string encode(std::string_view data)
     {
         return encode(data.data(), data.size());
     }
 
-    constexpr std::string encode(const std::string &data)
+    std::string encode(const std::string &data)
     {
         return encode(data.data(), data.size());
     }
 
     template <class T>
-    constexpr std::string encode(T data)
+    std::string encode(T data)
     {
         return encode(reinterpret_cast<char *>(&data), sizeof(data));
     }
     // ~ENCODING
 
     template <class T>
-    constexpr T decode(std::string_view data)
+    T decode(std::string_view data)
     {
     }
 };
