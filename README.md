@@ -2,5 +2,5 @@
 
 ## TODO List:
 
-- Add compile time evaluation
+- Add compile time functions
 - Encode and decode any type of data (int, float, class and etc.)
