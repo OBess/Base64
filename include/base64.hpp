@@ -10,7 +10,7 @@ namespace base64
     std::string encode(const char *data, const size_t size)
     {
         std::string encoded;
-        encoded.reserve(size * 2);
+        encoded.reserve(static_cast<size_t>(size + size * 0.25f));
 
         for (size_t i = 0; i < size; i += 3)
         {
