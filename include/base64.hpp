@@ -66,6 +66,10 @@ namespace base64
                 break;
 
             decoded.push_back((b << 4) | (c >> 2));
+
+            if (d == 64)
+                break;
+
             decoded.push_back((c << 6) | d);
         }
 
