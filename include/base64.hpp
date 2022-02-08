@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 namespace base64
 {
@@ -24,28 +25,58 @@ namespace base64
             encoded.push_back(base64Chars[i + 2 < size ? c & 63 : 64]);
         }
 
-        return encoded;
+        return std::move(encoded);
     }
 
     std::string encode(std::string_view data)
     {
-        return encode(data.data(), data.size());
+        return std::move(encode(data.data(), data.size()));
     }
 
     std::string encode(const std::string &data)
     {
-        return encode(data.data(), data.size());
+        return std::move(encode(data.data(), data.size()));
     }
 
     template <class T>
     std::string encode(T data)
     {
-        return encode(reinterpret_cast<char *>(&data), sizeof(data));
+        return std::move(encode(reinterpret_cast<char *>(&data), sizeof(data)));
     }
     // ~ENCODING
+
+    // DECODING
+    std::string decode(std::string_view data)
+    {
+        std::string decoded;
+        decoded.reserve(data.size());
+
+        for (size_t i = 0; i < data.size(); i += 4)
+        {
+            if (data[i] == '=')
+                break;
+
+            const char a = static_cast<char>(base64Chars.find(data[i]));
+            const char b = static_cast<char>(base64Chars.find(data[i + 1]));
+            const char c = static_cast<char>(base64Chars.find(data[i + 2]));
+            const char d = static_cast<char>(base64Chars.find(data[i + 3]));
+
+            decoded.push_back((a << 2) | (b >> 4));
+
+            if (c == 64)
+                break;
+
+            decoded.push_back((b << 4) | (c >> 2));
+            decoded.push_back((c << 6) | d);
+        }
+
+        return decoded;
+    }
 
     template <class T>
     T decode(std::string_view data)
     {
+        return *reinterpret_cast<T *>(decode(data).data());
     }
+    // ~DECODING
 };
