@@ -31,17 +31,6 @@ namespace base64
     {
         return std::move(encode(data.data(), data.size()));
     }
-
-    std::string encode(const std::string &data)
-    {
-        return std::move(encode(data.data(), data.size()));
-    }
-
-    template <class T>
-    std::string encode(T data)
-    {
-        return std::move(encode(reinterpret_cast<char *>(&data), sizeof(data)));
-    }
     // ~ENCODING
 
     // DECODING
@@ -74,12 +63,6 @@ namespace base64
         }
 
         return decoded;
-    }
-
-    template <class T>
-    T decode(std::string_view data)
-    {
-        return *reinterpret_cast<T *>(decode(data).data());
     }
     // ~DECODING
 };
