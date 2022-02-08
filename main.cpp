@@ -7,9 +7,9 @@
 inline void testing(std::string_view data)
 {
     const auto encoded = base64::encode(data);
-    const auto decoded = base64::decode(data);
+    const auto decoded = base64::decode(encoded);
 
-    fmt::println("Test: {};\nencoded: {};\ndecoded: {}.", data, encoded, decoded);
+    fmt::println("Test: {}\nencoded: {}\ndecoded: {}", data, encoded, decoded);
     assert(data == decoded);
 }
 
