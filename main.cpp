@@ -4,7 +4,7 @@
 #include "base64.hpp"
 #include "fmt.hpp"
 
-inline void testing(std::string_view data, std::string_view expected)
+inline void testing(std::string_view data, [[maybe_unused]] std::string_view expected)
 {
     const auto encoded = base64::encode(data);
     const auto decoded = base64::decode(encoded);
