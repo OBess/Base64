@@ -4,13 +4,29 @@
 
 namespace base64
 {
-    static constexpr std::string_view base64Chars{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
+    static constexpr size_t base64Size = 65;
+    static constexpr char base64Chars[base64Size] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                                                     'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                                                     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                                     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                                                     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/', '='};
+
+    static constexpr inline size_t index(char c)
+    {
+        for (size_t i = 0; i < base64Size; ++i)
+        {
+            if (c == base64Chars[i])
+                return i;
+        }
+
+        return -1;
+    }
 
     // ENCODING
     std::string encode(const char *data, const size_t size)
     {
         std::string encoded;
-        encoded.reserve(static_cast<size_t>(size + size * 0.25f));
+        encoded.reserve(size);
 
         for (size_t i = 0; i < size; i += 3)
         {
@@ -44,10 +60,10 @@ namespace base64
             if (data[i] == '=')
                 break;
 
-            const char a = static_cast<char>(base64Chars.find(data[i]));
-            const char b = static_cast<char>(base64Chars.find(data[i + 1]));
-            const char c = static_cast<char>(base64Chars.find(data[i + 2]));
-            const char d = static_cast<char>(base64Chars.find(data[i + 3]));
+            const char a = static_cast<char>(index(data[i]));
+            const char b = static_cast<char>(index(data[i + 1]));
+            const char c = static_cast<char>(index(data[i + 2]));
+            const char d = static_cast<char>(index(data[i + 3]));
 
             decoded.push_back((a << 2) | (b >> 4));
 

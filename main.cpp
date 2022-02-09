@@ -1,15 +1,23 @@
 #include <iostream>
 #include <cassert>
+#include <chrono>
 
 #include "base64.hpp"
 #include "fmt.hpp"
 
 inline void testing(std::string_view data, [[maybe_unused]] std::string_view expected)
 {
+    const auto encodedTimeStart = std::chrono::high_resolution_clock::now();
     const auto encoded = base64::encode(data);
-    const auto decoded = base64::decode(encoded);
+    const auto encodedTimeStop = std::chrono::high_resolution_clock::now();
+    const auto encodedTimeDuration = std::chrono::duration_cast<std::chrono::microseconds>(encodedTimeStop - encodedTimeStart);
 
-    fmt::println("Test: {}\nencoded: {}\ndecoded: {}", data, encoded, decoded);
+    auto decodedTimeStart = std::chrono::high_resolution_clock::now();
+    const auto decoded = base64::decode(encoded);
+    const auto decodedTimeStop = std::chrono::high_resolution_clock::now();
+    const auto decodedTimeDuration = std::chrono::duration_cast<std::chrono::microseconds>(decodedTimeStop - decodedTimeStart);
+
+    fmt::println("Test: {}\nencoded: {}\ndecoded: {}\n Encoded time: {};\n Decoded time: {}", data, encoded, decoded, encodedTimeDuration, decodedTimeDuration);
     assert(data == decoded);
     assert(encoded == expected);
 }
