@@ -17,7 +17,7 @@ inline void testing(std::string_view data, [[maybe_unused]] std::string_view exp
     const auto decodedTimeStop = std::chrono::high_resolution_clock::now();
     const auto decodedTimeDuration = std::chrono::duration_cast<std::chrono::microseconds>(decodedTimeStop - decodedTimeStart);
 
-    fmt::println("Test: {}\nencoded: {}\ndecoded: {}\n Encoded time: {};\n Decoded time: {}", data, encoded, decoded, encodedTimeDuration, decodedTimeDuration);
+    fmt::println("Test: {}\nencoded: {}\ndecoded: {}\n Encoded time: {};\n Decoded time: {}", data, encoded, decoded, encodedTimeDuration.count(), decodedTimeDuration.count());
     assert(data == decoded);
     assert(encoded == expected);
 }

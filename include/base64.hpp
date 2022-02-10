@@ -7,7 +7,7 @@ namespace base64
     static constexpr std::string_view base64Chars{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
 
     // ENCODING
-    std::string encode(const char *data, const size_t size)
+    std::string &&encode(const char *data, const size_t size)
     {
         std::string encoded;
         encoded.reserve(static_cast<size_t>(size + size * 0.25f));
@@ -27,14 +27,14 @@ namespace base64
         return std::move(encoded);
     }
 
-    std::string encode(std::string_view data)
+    std::string &&encode(std::string_view data)
     {
         return std::move(encode(data.data(), data.size()));
     }
     // ~ENCODING
 
     // DECODING
-    std::string decode(std::string_view data)
+    std::string &&decode(std::string_view data)
     {
         std::string decoded;
         decoded.reserve(data.size());
@@ -62,7 +62,7 @@ namespace base64
             decoded.push_back((c << 6) | d);
         }
 
-        return decoded;
+        return std::move(decoded);
     }
     // ~DECODING
 };
