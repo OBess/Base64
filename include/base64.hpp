@@ -4,9 +4,19 @@
 
 namespace base64
 {
+    /**
+     * @brief All characters in base64 format
+     * 
+     */
     static constexpr std::string_view base64Chars{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
 
-    // ENCODING
+    /**
+     * @brief Convert string to base64 format
+     * 
+     * @param data 
+     * @param size 
+     * @return std::string&& 
+     */
     std::string &&encode(const char *data, const size_t size)
     {
         std::string encoded;
@@ -27,13 +37,23 @@ namespace base64
         return std::move(encoded);
     }
 
+    /**
+     * @brief Overloading the base64 string conversion algorithm
+     * 
+     * @param data 
+     * @return std::string&& 
+     */
     std::string &&encode(std::string_view data)
     {
         return std::move(encode(data.data(), data.size()));
     }
-    // ~ENCODING
 
-    // DECODING
+    /**
+     * @brief Convert string from base64 format
+     * 
+     * @param data 
+     * @return std::string&& 
+     */
     std::string &&decode(std::string_view data)
     {
         std::string decoded;
@@ -64,5 +84,4 @@ namespace base64
 
         return std::move(decoded);
     }
-    // ~DECODING
 };
