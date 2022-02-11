@@ -6,32 +6,51 @@ namespace base64
 {
     /**
      * @brief All characters in base64 format
-     * 
+     *
      */
     static constexpr std::string_view base64Chars{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
 
     /**
      * @brief Convert string to base64 format
-     * 
-     * @param data 
-     * @param size 
-     * @return std::string&& 
+     *
+     * @param data
+     * @param size
+     * @return std::string&&
      */
-    std::string &&encode(const char *data, const size_t size)
+    std::string encode(const char *data, size_t size)
     {
         std::string encoded;
-        encoded.reserve(static_cast<size_t>(size + size * 0.25f));
+        encoded.reserve(size + size);
 
-        for (size_t i = 0; i < size; i += 3)
+        const size_t minSize = size % 3;
+        size -= minSize;
+
         {
-            const char a = data[i];
-            const char b = i + 1 < size ? data[i + 1] : 0;
-            const char c = i + 2 < size ? data[i + 2] : 0;
+            size_t i = 0;
+            while (i < size)
+            {
+                const char a = data[i++];
+                const char b = data[i++];
+                const char c = data[i++];
 
-            encoded.push_back(base64Chars[a >> 2]);
-            encoded.push_back(base64Chars[(a & 3) << 4 | b >> 4]);
-            encoded.push_back(base64Chars[i + 1 < size ? (b & 15) << 2 | c >> 6 : 64]);
-            encoded.push_back(base64Chars[i + 2 < size ? c & 63 : 64]);
+                encoded.push_back(base64Chars[a >> 2]);
+                encoded.push_back(base64Chars[(a & 3) << 4 | b >> 4]);
+                encoded.push_back(base64Chars[(b & 15) << 2 | c >> 6]);
+                encoded.push_back(base64Chars[c & 63]);
+            }
+
+            size += minSize;
+            if (i < size)
+            {
+                const char a = data[i];
+                const char b = i + 1 < size ? data[i + 1] : 0;
+                const char c = i + 2 < size ? data[i + 2] : 0;
+
+                encoded.push_back(base64Chars[a >> 2]);
+                encoded.push_back(base64Chars[(a & 3) << 4 | b >> 4]);
+                encoded.push_back(base64Chars[i + 1 < size ? (b & 15) << 2 | c >> 6 : 64]);
+                encoded.push_back(base64Chars[i + 2 < size ? c & 63 : 64]);
+            }
         }
 
         return std::move(encoded);
@@ -39,22 +58,22 @@ namespace base64
 
     /**
      * @brief Overloading the base64 string conversion algorithm
-     * 
-     * @param data 
-     * @return std::string&& 
+     *
+     * @param data
+     * @return std::string&&
      */
-    std::string &&encode(std::string_view data)
+    std::string encode(std::string_view data)
     {
         return std::move(encode(data.data(), data.size()));
     }
 
     /**
      * @brief Convert string from base64 format
-     * 
-     * @param data 
-     * @return std::string&& 
+     *
+     * @param data
+     * @return std::string&&
      */
-    std::string &&decode(std::string_view data)
+    std::string decode(std::string_view data)
     {
         std::string decoded;
         decoded.reserve(data.size());
