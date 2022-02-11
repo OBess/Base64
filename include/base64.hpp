@@ -15,7 +15,7 @@ namespace base64
      *
      * @param data
      * @param size
-     * @return std::string&&
+     * @return std::string
      */
     std::string encode(const char *data, size_t size)
     {
@@ -60,7 +60,7 @@ namespace base64
      * @brief Overloading the base64 string conversion algorithm
      *
      * @param data
-     * @return std::string&&
+     * @return std::string
      */
     std::string encode(std::string_view data)
     {
@@ -71,7 +71,7 @@ namespace base64
      * @brief Convert string from base64 format
      *
      * @param data
-     * @return std::string&&
+     * @return std::string
      */
     std::string decode(std::string_view data)
     {
