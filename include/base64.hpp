@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace base64
+namespace ds::base64
 {
     /**
      * @brief All characters in base64 format
