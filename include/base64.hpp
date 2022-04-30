@@ -62,7 +62,7 @@ namespace ds::base64
      * @param data
      * @return std::string
      */
-    static std::string encode(std::string_view data)
+    static std::string encode(const std::string_view data)
     {
         return std::move(encode(data.data(), data.size()));
     }
@@ -73,7 +73,7 @@ namespace ds::base64
      * @param data
      * @return std::string
      */
-    static std::string decode(std::string_view data)
+    static std::string decode(const std::string_view data)
     {
         std::string decoded;
         decoded.reserve(data.size());
