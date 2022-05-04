@@ -53,7 +53,7 @@ namespace ds::base64
             }
         }
 
-        return std::move(encoded);
+        return encoded;
     }
 
     /**
@@ -64,7 +64,7 @@ namespace ds::base64
      */
     static std::string encode(const std::string_view data)
     {
-        return std::move(encode(data.data(), data.size()));
+        return encode(data.data(), data.size());
     }
 
     /**
@@ -101,6 +101,6 @@ namespace ds::base64
             decoded.push_back((c << 6) | d);
         }
 
-        return std::move(decoded);
+        return decoded;
     }
 };
